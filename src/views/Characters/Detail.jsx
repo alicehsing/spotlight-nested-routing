@@ -18,11 +18,9 @@ export default function CharacterDetail({ characters = [] }) {
   return (
     <>
       <div className={styles.detail}>
-        <section>
-          <h2>{character.name}</h2>
-          <span>Species: {character.species}</span>
-          <img alt={`${character.name}`} src={character.image} />
-        </section>
+        <h2>{character.name}</h2>
+        <span>Species: {character.species}</span>
+        <img alt={`${character.name}`} src={character.image} />
       </div>
     </>
   );

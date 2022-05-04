@@ -1,49 +1,58 @@
-// import {
-//   render,
-//   screen,
-//   waitForElementToBeRemoved,
-// } from '@testing-library/react';
-// import { MemoryRouter } from 'react-router-dom';
-// import userEvent from '@testing-library/user-event';
-// import App from './App';
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
+import App from './App';
 
-// describe('<App />', () => {
-//   it('renders a list of clickable characters on list view, on click, navigates to the character detail view', async () => {
-//     // Render the app to the "screen"
-//     render(
-//       //initialEntries
-//       <MemoryRouter initialEntries={['/']} initialIndex={1}>
-//         <App />
-//       </MemoryRouter>
-//     );
+describe('<App />', () => {
+  it('renders a header component', async () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>
+    );
+    // Find and check for an <h1> element "Rick and Morty Character Wiki"
+    screen.getByText(/Rick and Morty Character Wiki/i);
+  });
 
-//     // Find an element with the text of "Loading..."
-//     screen.getByText(/loading/i);
-//     await waitForElementToBeRemoved(await screen.findByText(/loading/i));
+  it('on click of View Characters link, renders character list view beneath header', async () => {
+    render(
+      <MemoryRouter initialEntries={['/characters']}>
+        <App />
+      </MemoryRouter>
+    );
 
-//     // Find and check for clickable rendered character 'Rick Sanchez'
-//     const characterLink = await screen.findByText('Rick Sanchez');
-//     userEvent.click(characterLink);
+    // Find clickable "View Characters" link and click
+    const characterList = await screen.findByText('View Characters');
+    userEvent.click(characterList);
 
-//     // on click, find and check for image of Rick Sanchez rendered on detail page
-//     await screen.findByAltText('Rick Sanchez');
-//   });
+    // On click, Find an element with the text of "Loading..."
+    screen.getByText(/loading/i);
+    await waitForElementToBeRemoved(await screen.findByText(/loading/i));
 
-//   it("renders character Rick Sanchez's name, species, status, location and gender", async () => {
-//     // Render the app to the "screen"
-//     render(
-//       //<MemoryRouter> supports the initialEntries props, so you can boot up an app (or any smaller part of an app) at a specific location.
-//       <MemoryRouter initialEntries={['/characters/1']}>
-//         <App />
-//       </MemoryRouter>
-//     );
+    // on click, find and check for a list of characters
+    await screen.findByText('Rick Sanchez');
+    await screen.findByText('Beth Smith');
+    await screen.findByText('Antenna Morty');
+  });
 
-//     // Find an element with the text of "Loading..."
-//     screen.getByText('Loading character...');
-//     await waitForElementToBeRemoved(screen.getByText(/loading/i));
+  it('on click of a character, renders a character detail consisted of name, image and species', async () => {
+    render(
+      <MemoryRouter initialEntries={['/characters']}>
+        <App />
+      </MemoryRouter>
+    );
+    // Find clickable character "Rick Sanchez" and click
+    const character = await screen.findByText('Rick Sanchez');
+    userEvent.click(character);
 
-//     // Find and check for image alt text of 'Rick Sanchez'
-//     const image = await screen.findByAltText('Rick Sanchez');
-//     expect(image).toBeInTheDocument();
-//   });
-// });
+    // Find and check for image alt text of 'Rick Sanchez'
+    const image = await screen.findByAltText('Rick Sanchez');
+    const species = await screen.findByText('Species: Human');
+    expect(image).toBeInTheDocument();
+    expect(species).toBeInTheDocument();
+  });
+});
