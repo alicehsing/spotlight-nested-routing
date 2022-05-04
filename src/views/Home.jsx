@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <header className={styles.header}>
-        <h1>Rick and Morty Character Wiki</h1>
+        {/* <h1>Rick and Morty Character Wiki</h1> */}
         <Link to="/">
           <h3>Home</h3>
         </Link>

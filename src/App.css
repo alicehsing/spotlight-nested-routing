@@ -12,9 +12,13 @@ body,
     'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+.container {
+  display: grid;
+  grid: 1fr / 1fr 1.5fr;
+}
+
 header {
   background-color: rgb(238, 248, 243);
-  background-image: ;
   width: 100%;
   max-width: 100%;
   margin: auto;
